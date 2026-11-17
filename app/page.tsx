@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Swal from "sweetalert2"
-import Image from 'next/image';
+import Link from "next/link"
 
 
 export default function loginUsuario() {
@@ -35,42 +35,96 @@ export default function loginUsuario() {
   }
 }
   return (
-    <main className="flex min-h-screen bg-green-50">
-      <div className="w-1/2 p-4 bg-green-50">
-        <h1 className="text-4xl font-bold text-green-700">🌿VerdeScanner</h1>
-      </div>
-      <div className="w-1/2 rounded-2xl bg-green-100 shadow-md p-8">
-        <h1>
-          🌱
-        </h1>
+    <main className="min-h-screen bg-green-50">
 
-        <h1 className="font-bold text-3xl text-black ">
+
+<div className="min-h-screen flex items-center justify-center p-8">
+
+  <div className="w-full max-w-md bg-white border border-green-100 shadow-lg rounded-2xl p-8">
+
+    
+    <div className="text-center mb-8">
+      <h1 className="text-3xl font-bold text-green-800">
+        🌿 Bem-vindo ao VerdeScanner!
+      </h1>
+
+      <p className="text-gray-500 mt-2 text-sm">
         Sua estufa, sob controle.
-        </h1>
+      </p>
+    </div>
 
-        <p className="text-sm text-gray-600">
-          Acompanhe as condições ambientais e cuide melhor
-          das suas plantas.
-        </p>
+    <form className="flex flex-col gap-5">
 
-        <Image
-        src="/estufa.jpeg"
-        alt="Estufa"
-        width={800}
-        height={600}
-        className="w-full h-135 rounded-2xl border-black border-3"
+      <div>
+        
+        <label className="block text-sm font-medium mb-2">Usuario</label>
+
+        <input 
+        type="text"
+        placeholder="Digite seu nome de usuario"
+        value={usuario}
+        onChange={(e)=>setUsuario(e.target.value)}
+        required
+        className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+        />
+
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-2">
+          E-mail
+        </label>
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
         />
       </div>
 
-     <div className="bg-white w-1/2 flex flex-col p-8">
-        <h1 className="text-3xl font-bold">
-          Bem-vindo!
-        </h1>
+      <div>
+        <label className="block text-sm font-medium mb-2">
+          Senha
+        </label>
 
-        <p className="mt-4">
-          Entre na sua conta do VerdeScanner.
-        </p>
+        <input
+          type="password"
+          name="password"
+          placeholder="Digite sua senha"
+          value={senha}
+          onChange={(e)=>setSenha(e.target.value)}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+        />
       </div>
+
+      <button
+        type="submit"
+        onClick={Entrar}
+        className="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-lg transition-colors"
+      >
+        Entrar
+      </button>
+
+    </form>
+
+    <p className="text-center text-sm text-gray-500 mt-6">
+      Não tem uma conta? {""}
+
+      <Link
+      href="/cadastro"
+            className="text-green-700 font-semibold hover:underline"
+      >Cadastrar</Link>
+    </p>
+
+  </div>
+</div>
+
+
     </main>
   )
 }
