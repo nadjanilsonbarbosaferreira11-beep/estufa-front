@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Swal from "sweetalert2"
-import Link from "next/link"
 
 
 export default function loginUsuario() {
@@ -15,24 +14,39 @@ export default function loginUsuario() {
     const [senha, setSenha] = useState("")
 
   async function Entrar() {
-    if(usuario !== "" && email !== "" && senha !== ""){
-      localStorage.setItem("usuario_logado", "true")
+    if(usuario.trim() === "") {
+      await Swal.fire({
+        title: "informe seu nome de usuário",
+        icon: "warning"
+      })
+      return
+    }
 
-    await Swal.fire({
-      title: "Login efetuado com sucesso!",
-      icon:"success",
-      confirmButtonText:"Ok"
-    })
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      await Swal.fire({
+        title:"Email inválido",
+        icon:"warning"
+      })
+      return
+    }
 
-    router.push("/dashboard")
-    return
-  }else{
-    await Swal.fire({
-      title:"Falha ao logar!",
-      icon:"error",
-      confirmButtonText:"Ok"
-    })
-  }
+    if(senha.length < 6){
+      await Swal.fire({
+        title:"Senha inválida",
+        text:"sua senha deve conter no minímo 6 caracteres.",
+        icon:"warning"
+      })
+      return
+    }
+
+     await Swal.fire({
+    title: "Login efetuado com sucesso!",
+    icon: "success",
+    confirmButtonText: "Ok"
+  })
+
+  router.push("/dashboard")
+
 }
   return (
     <main className="min-h-screen bg-green-50">
@@ -64,7 +78,6 @@ export default function loginUsuario() {
         placeholder="Digite seu nome de usuario"
         value={usuario}
         onChange={(e)=>setUsuario(e.target.value)}
-        required
         className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
         />
 
@@ -77,11 +90,9 @@ export default function loginUsuario() {
 
         <input
           type="email"
-          name="email"
           placeholder="Digite seu e-mail"
           value={email}
           onChange={(e)=>setEmail(e.target.value)}
-          required
           className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
         />
       </div>
@@ -93,17 +104,15 @@ export default function loginUsuario() {
 
         <input
           type="password"
-          name="password"
           placeholder="Digite sua senha"
           value={senha}
           onChange={(e)=>setSenha(e.target.value)}
-          required
           className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
         />
       </div>
 
       <button
-        type="submit"
+        type="button"
         onClick={Entrar}
         className="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-lg transition-colors"
       >
@@ -111,20 +120,8 @@ export default function loginUsuario() {
       </button>
 
     </form>
-
-    <p className="text-center text-sm text-gray-500 mt-6">
-      Não tem uma conta? {""}
-
-      <Link
-      href="/cadastro"
-            className="text-green-700 font-semibold hover:underline"
-      >Cadastrar</Link>
-    </p>
-
   </div>
 </div>
-
-
-    </main>
+ </main>
   )
 }
